@@ -201,6 +201,10 @@ public struct SampleSection: Identifiable {
       id: "animations",
       title: "Animations",
       samples: [
+        // https://developer.apple.com/documentation/swiftui/timelineview
+        SampleItem("TimelineView", id: "animations-timeline-view") {
+          TimelineSample()
+        },
         // https://developer.apple.com/documentation/swiftui/view/
         // matchedgeometryeffect(id:in:properties:anchor:issource:)
         SampleItem("matchedgeometryeffect", id: "animations-matched-geometry-effect") {
@@ -248,6 +252,9 @@ public struct SampleSection: Identifiable {
         },
         SampleItem("Flipper Animation", id: "view-color-flipper-flipper-animation") {
           FlipperAnimationSample()
+        },
+        SampleItem("Hierarchical Background", id: "view-color-flipper-hierarchical-background") {
+          HierarchicalBackgroundSample()
         }
       ]),
     SampleSection(
@@ -276,7 +283,10 @@ public struct SampleSection: Identifiable {
       id: "view-sheet",
       title: "View",
       samples: [
-        SampleItem(".sheet", id: "view-sheet-sheet") { SheetSample() }
+        SampleItem(".sheet", id: "view-sheet-sheet") { SheetSample() },
+        SampleItem("Automatic Size Sheet", id: "view-sheet-automatic-size-sheet") {
+          AutamaticSizeSheetSample()
+        }
       ]),
     SampleSection(
       id: "liquid-glass",
