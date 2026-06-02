@@ -69,6 +69,49 @@ half3 shaderDesignLangV2FlatPalette(float shapeKind) {
     return half3(0.045, 0.035, 0.095);
 }
 
+float shaderDesignLangV2Hash(float2 value) {
+    return fract(sin(dot(value, float2(127.1, 311.7))) * 43758.5453);
+}
+
+float shaderDesignLangV2SoftNoise(float2 uv) {
+    float2 cell = floor(uv);
+    float2 local = fract(uv);
+    float2 blend = local * local * (3.0 - 2.0 * local);
+
+    float a = shaderDesignLangV2Hash(cell);
+    float b = shaderDesignLangV2Hash(cell + float2(1.0, 0.0));
+    float c = shaderDesignLangV2Hash(cell + float2(0.0, 1.0));
+    float d = shaderDesignLangV2Hash(cell + float2(1.0, 1.0));
+
+    return mix(mix(a, b, blend.x), mix(c, d, blend.x), blend.y);
+}
+
+float shaderDesignLangV2CardLobe(float2 uv, float2 center, float2 scale) {
+    float2 p = (uv - center) * scale;
+    return smoothstep(1.0, 0.0, dot(p, p));
+}
+
+half4 shaderDesignLangV2FrostedPalette(float2 uv) {
+    half3 glassBlue = half3(0.350, 0.780, 0.950);
+    half3 neonViolet = half3(0.470, 0.170, 0.820);
+    half3 iceWhite = half3(0.880, 0.980, 1.000);
+    half3 electricCyan = half3(0.090, 0.860, 0.920);
+    half3 neonPink = half3(1.000, 0.000, 0.780);
+
+    float shimmer = shaderDesignLangV2SoftNoise(uv * 18.0 + float2(8.0, 13.0));
+    float satin = shaderDesignLangV2SoftNoise(uv * 5.5 + float2(21.0, 4.0));
+    float sideCyan = smoothstep(0.0, 1.0, 1.0 - uv.y + uv.x * 0.18);
+    float sidePink = smoothstep(0.0, 1.0, uv.y + uv.x * 0.24);
+
+    half3 color = mix(glassBlue, neonViolet, half(uv.y * 0.42 + uv.x * 0.10));
+    color = mix(color, electricCyan, half(sideCyan * 0.24));
+    color = mix(color, neonPink, half(sidePink * 0.18));
+    color = mix(color, iceWhite, half((1.0 - shimmer) * 0.10));
+    color += half3(0.020, 0.026, 0.034) * half((satin - 0.5) * 0.18);
+
+    return half4(clamp(color, half3(0.0), half3(1.0)), 1.0);
+}
+
 [[ stitchable ]]
 half4 shaderDesignLangV2(
     float2 position,
@@ -82,4 +125,16 @@ half4 shaderDesignLangV2(
     float mask = shaderDesignLangV2ShapeMask(artUV, shapeKind);
 
     return half4(shaderDesignLangV2FlatPalette(shapeKind), half(mask));
+}
+
+[[ stitchable ]]
+half4 shaderDesignLangV2FrostedCard(
+    float2 position,
+    half4 currentColor,
+    float2 size,
+    float time
+) {
+    float2 uv = position / size;
+    half4 frost = shaderDesignLangV2FrostedPalette(uv);
+    return half4(frost.rgb, currentColor.a * frost.a);
 }

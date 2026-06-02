@@ -97,7 +97,7 @@ public struct SampleSection: Identifiable {
         SampleItem("Shape Shader Design Language V1", id: "shaders-shape-design-lang-v1") {
           ShaderDesignLangV1Sample()
         },
-        SampleItem("Shape Shader Design Language V2", id: "shaders-shape-design-lang-v2") {
+        SampleItem("Playing Card Shader Design Language V2", id: "shaders-playing-card-design-lang-v2") {
           ShaderDesignLangV2Sample()
         }
       ]),
