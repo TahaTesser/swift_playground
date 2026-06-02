@@ -91,6 +91,14 @@ public struct SampleSection: Identifiable {
         SampleItem("Masking", id: "drawing-and-graphics-masking") { MaskingSample() }
       ]),
     SampleSection(
+      id: "shaders",
+      title: "Shaders",
+      samples: [
+        SampleItem("Shape Shader Design Language V1", id: "shaders-shape-design-lang-v1") {
+          ShaderDesignLangV1Sample()
+        }
+      ]),
+    SampleSection(
       id: "tables",
       title: "Tables",
       samples: [
