@@ -14,7 +14,7 @@ struct TimelineSample: View {
                 Text(context.date, format: .dateTime.hour().minute().second())
                     .monospaced()
             }
-            
+
             TimelineView(.animation) { context in
                 let time = context.date.timeIntervalSinceReferenceDate
                 let hue = (sin(time * 0.2) + 1) / 2
@@ -22,13 +22,13 @@ struct TimelineSample: View {
             }
             .clipShape(.capsule)
             .frame(width: 250, height: 100)
-            
+
             TimelineView(.animation) { context in
                 let format: Date.FormatStyle =
                 context.cadence == .live
                 ? .dateTime.hour().minute().second().secondFraction(.fractional(3))
                 : .dateTime.hour().minute().second()
-                
+
                 Text(context.date, format: format)
                     .monospacedDigit()
             }

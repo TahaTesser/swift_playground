@@ -9,8 +9,7 @@ import SwiftUI
 
 struct AutamaticSizeSheetSample: View {
     @State private var isPresented: Bool = false
-    
-    
+
     var body: some View {
         Button {
             isPresented = true
@@ -23,7 +22,7 @@ struct AutamaticSizeSheetSample: View {
                 .ignoresSafeArea()
                 .presentationDetents(.sizeToFit)
         }
-          
+
     }
 }
 
@@ -32,11 +31,11 @@ enum SizeToFitPresentationDetent {
 }
 
 struct SizeToFitModifier: ViewModifier {
-    
+
     let additional: Set<PresentationDetent>
-    
+
     @State private var contentHeight = 0.0
-    
+
     func body(content: Content) -> some View {
         content
             .onGeometryChange(for: CGFloat.self) {
@@ -51,7 +50,7 @@ struct SizeToFitModifier: ViewModifier {
 }
 
 extension View {
-    
+
     func presentationDetents(
         _ detent: SizeToFitPresentationDetent,
         additional: Set<PresentationDetent> = []
